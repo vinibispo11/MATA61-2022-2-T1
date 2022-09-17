@@ -12,13 +12,16 @@ typedef enum {
 } token_t;
 
 %}
-
+DIGIT [0-9]
+LETTER [a-zA-Z]
+SYMBOL [+\-\*\/<>=;,()\[\]{}]
 %%
-
-
-
-
-
+(" "|\n|\t|\/{2}.*)
+do|else|if|int|return|void|while {return KEY;}
+{LETTER}({LETTER}|{DIGIT}|_)* {return ID;}
+{DIGIT}({DIGIT})* {return NUM;}
+({SYMBOL}|>=|<=|==|!=) {return SYM;}
+. {return ERROR;}
 %%
 
 int main(int argc, char **argv) {
